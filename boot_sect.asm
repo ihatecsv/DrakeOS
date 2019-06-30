@@ -1,8 +1,8 @@
 mov ah, 0x0e                ; When we interrupt, use "scrolling teletype routine"
 
 reset:
-    mov bx, message         ; Set bx to the message address
-    add bx, 0x7c00          ; Offset it by the BIOS boot record offset
+    mov bx, message         ; Set bx to the message offset position
+    add bx, 0x7c00          ; Add the BIOS boot sector base address
     jmp loopLabel           ; Jump into the loop
 
 loopLabel:
