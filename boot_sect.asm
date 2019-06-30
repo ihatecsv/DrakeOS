@@ -2,20 +2,23 @@
 
 mov ah, 0x0e                ; When we interrupt, use "scrolling teletype routine"
 
-reset:
-    mov bx, message         ; Set bx to the message offset position
-    jmp theloop           ; Jump into the loop
+the_loop:
+    mov bx, message         ; Set the "parameter" for print_string
+    call print_string
+    jmp the_loop
 
-theloop:
-    mov cx, [bx]            ; Temporarily store the character for cmp
-    cmp cx, 0               ; Check if we've reached the null byte
-    je reset                ; If we have reached the null byte, reset
-    
-    mov al, [bx]            ; Provide the character for the interrupt
-    int 0x10                ; Do it
-
-    add bx, 0x1             ; Increment char ptr
-    jmp theloop           ; Loop again
+print_string:
+    pusha                   ; Push all registers to the stack
+    print_loop:
+        mov al, [bx]
+        cmp al, 0
+        je print_finished
+        int 0x10
+        add bx, 1
+        jmp print_loop
+    print_finished:
+        popa                ; Pop all registers from the stack
+        ret
 
 message:
     db "Drake", 0
