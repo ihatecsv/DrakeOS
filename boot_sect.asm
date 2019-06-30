@@ -1,11 +1,12 @@
+[org 0x7c00]                ; Set the BIOS boot sector base address
+
 mov ah, 0x0e                ; When we interrupt, use "scrolling teletype routine"
 
 reset:
     mov bx, message         ; Set bx to the message offset position
-    add bx, 0x7c00          ; Add the BIOS boot sector base address
-    jmp loopLabel           ; Jump into the loop
+    jmp theloop           ; Jump into the loop
 
-loopLabel:
+theloop:
     mov cx, [bx]            ; Temporarily store the character for cmp
     cmp cx, 0               ; Check if we've reached the null byte
     je reset                ; If we have reached the null byte, reset
@@ -14,7 +15,7 @@ loopLabel:
     int 0x10                ; Do it
 
     add bx, 0x1             ; Increment char ptr
-    jmp loopLabel           ; Loop again
+    jmp theloop           ; Loop again
 
 message:
     db "Drake", 0
