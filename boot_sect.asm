@@ -22,12 +22,12 @@ the_loop:
 print_char:
     pusha
     mov ah, 0x0e                    ; When we interrupt, use "scrolling teletype routine"
-    int 0x10                        ; Otherwise, interrupt
+    int 0x10                        ; Interrupt, print the character
     popa
     ret
 
 print_string:
-    pusha                           ; Push all registers to the stack               
+    pusha
     print_string_loop:
         mov al, [bx]                ; Move the current char into register a
         cmp al, 0                   ; If it's NULL,
