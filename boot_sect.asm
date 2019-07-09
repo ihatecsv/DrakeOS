@@ -80,5 +80,5 @@ HEX_OUT:
 MSG:
     db "Drake", 0
 
-times 510-($-$$) db 0               ; Pad with zeroes to 512 bytes
-dw 0xaa55                           ; Magic number for boot sector
+times 510-($-$$) db 0               ; Pad with zeroes to 510 bytes
+dw 0xaa55                           ; 2 byte magic number for boot sector
